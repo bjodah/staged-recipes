@@ -1,0 +1,50 @@
+{% set name = "elpa" %}
+{% set version = "2017.11.001" %}
+{% set sha256 = "59f99c3abe2190fac0db8a301d0b9581ee134f438669dbc92551a54f6f861820" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://elpa.mpcdf.mpg.de/html/Releases/{{ version }}/{{ name }}-{{ version }}.tar.gz
+  sha256: {{ sha256 }}
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+    - {{ compiler('fortran') }}
+  host:
+    - openblas
+    - scalapack  # [ mpi != 'nompi' ]
+  run:
+    - openblas
+    - scalapack  # [ mpi != 'nompi' ]
+
+test:
+  commands:
+    - test -x $PREFIX/lib/libelpa.so
+
+about:
+  home: https://elpa.mpcdf.mpg.de
+  license: LGPL-3
+  license_family: LGPL
+  license_file: LICENSE
+  summary: 'Eigenvalue SoLvers for Petaflop-Applications (ELPA)'
+
+  description: |
+    The publicly available ELPA library provides highly efficient and highly
+    scalable direct eigensolvers for symmetric matrices. Though especially
+    designed for use for PetaFlop/s applications solving large problem sizes
+    on massively parallel supercomputers, ELPA eigensolvers have proven to be
+    also very efficient for smaller matrices.
+All major architectures are supported
+  doc_url: https://elpa.mpcdf.mpg.de/documentation
+  dev_url: https://gitlab.mpcdf.mpg.de/elpa/elpa
+
+extra:
+  recipe-maintainers:
+    - bjodah
